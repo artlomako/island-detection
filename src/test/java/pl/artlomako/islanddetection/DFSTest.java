@@ -59,7 +59,7 @@ class DFSTest {
                 {false, false, false, true},
         };
         // when
-        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+        Assertions.assertThatIllegalArgumentException()
                 .isThrownBy(() -> DFS.getVertexes(graph, new Point(0, 1)));
     }
 
