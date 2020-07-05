@@ -4,16 +4,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pl.artlomako.islanddetection.islandprovider.IslandProvider;
 import pl.artlomako.islanddetection.islandprovider.StubIslandProvider;
+import pl.artlomako.islanddetection.islandslookup.IslandsLookup;
+import pl.artlomako.islanddetection.islandslookup.SimpleIslandsLookup;
 
 public class Main {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LookupTaskProducerFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
         IslandProvider islandProvider = new StubIslandProvider();
         boolean[][] island = islandProvider.get();
 
+        IslandsLookup islandsLookup = new SimpleIslandsLookup();
+
         long startedAt = System.currentTimeMillis();
-        int islandsCount = IslandsLookup.countIslands(island);
+        int islandsCount = islandsLookup.countIslands(island);
         long finishedAt = System.currentTimeMillis();
         long executionTime = finishedAt - startedAt;
 

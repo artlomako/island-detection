@@ -1,10 +1,13 @@
-package pl.artlomako.islanddetection;
+package pl.artlomako.islanddetection.islandslookup;
+
+import pl.artlomako.islanddetection.DFS;
+import pl.artlomako.islanddetection.Point;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class IslandsLookup {
-    public static int countIslands(boolean[][] map) {
+public class SimpleIslandsLookup implements IslandsLookup {
+    public int countIslands(boolean[][] map) {
         Set<Point> visitedPoints = new HashSet<>();
         int islandsCount = 0;
 
