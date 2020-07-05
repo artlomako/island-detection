@@ -1,20 +1,20 @@
-package pl.artlomako.taskprocessor.task;
+package pl.artlomako.taskprocessor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class TaskQueue {
+public class TaskQueue<T extends Task> {
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskQueue.class);
 
-    private final LinkedList<Task> tasks;
+    private final LinkedList<T> tasks;
     private final Lock lock;
     private final Condition canReceiveTasks;
-    private final Condition canGiveTasks;
     private final int itemsCountToResumeReceiving;
     private final int limit;
 
@@ -22,12 +22,11 @@ public class TaskQueue {
         this.tasks = new LinkedList<>();
         this.lock = new ReentrantLock();
         this.canReceiveTasks = this.lock.newCondition();
-        this.canGiveTasks = this.lock.newCondition();
         this.itemsCountToResumeReceiving = limit / 2;
         this.limit = limit;
     }
 
-    public void push(Task task) throws InterruptedException {
+    public void push(T task) throws InterruptedException {
         this.lock.lock();
         try {
             while (this.tasks.size() == limit) {
@@ -38,21 +37,19 @@ public class TaskQueue {
             this.tasks.add(task);
             LOGGER.debug("Pushed task {}. Queue size: [{}]", task, this.tasks.size());
 
-            this.canGiveTasks.signal();
         } finally {
             this.lock.unlock();
         }
     }
 
-    public Task pop() throws InterruptedException {
+    public Optional<T> pop() {
         this.lock.lock();
         try {
-            while (this.tasks.isEmpty()) {
-                LOGGER.info("Task queue is empty. Waiting");
-                this.canGiveTasks.await();
-            }
 
-            Task task = this.tasks.removeLast();
+            T task = this.tasks.pollLast();
+            if (task == null) {
+                return Optional.empty();
+            }
             LOGGER.debug("Popped task {}. Queue size: [{}]", task, this.tasks.size());
 
             if (this.tasks.size() == this.itemsCountToResumeReceiving) {
@@ -60,13 +57,18 @@ public class TaskQueue {
                 this.canReceiveTasks.signal();
             }
 
-            return task;
+            return Optional.of(task);
         } finally {
             this.lock.unlock();
         }
     }
 
-    public int size() {
-        return this.tasks.size();
+    public boolean isEmpty() {
+        this.lock.lock();
+        try {
+            return tasks.isEmpty();
+        } finally {
+            this.lock.unlock();
+        }
     }
 }

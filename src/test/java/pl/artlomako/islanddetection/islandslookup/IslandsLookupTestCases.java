@@ -1,10 +1,10 @@
-package pl.artlomako.islanddetection;
+package pl.artlomako.islanddetection.islandslookup;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-class IslandsLookupTestCases {
+public class IslandsLookupTestCases {
     public static final Map<boolean[][], Integer> MAPS = new HashMap<>();
 
     static {
