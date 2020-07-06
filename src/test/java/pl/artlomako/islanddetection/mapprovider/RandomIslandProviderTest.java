@@ -1,4 +1,4 @@
-package pl.artlomako.islanddetection.islandprovider;
+package pl.artlomako.islanddetection.mapprovider;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ class RandomIslandProviderTest {
         int colsCount = 10;
 
         // when
-        RandomIslandProvider islandProvider = new RandomIslandProvider(rowsCount, colsCount);
+        RandomMapProvider islandProvider = new RandomMapProvider(rowsCount, colsCount);
         boolean[][] island = islandProvider.get();
 
         // then
@@ -26,7 +26,7 @@ class RandomIslandProviderTest {
         int colsCount = 0;
 
         // when
-        RandomIslandProvider islandProvider = new RandomIslandProvider(rowsCount, colsCount);
+        RandomMapProvider islandProvider = new RandomMapProvider(rowsCount, colsCount);
         boolean[][] island = islandProvider.get();
 
         // then
@@ -41,7 +41,7 @@ class RandomIslandProviderTest {
         int colsCount = 20;
 
         // when
-        RandomIslandProvider islandProvider = new RandomIslandProvider(rowsCount, colsCount);
+        RandomMapProvider islandProvider = new RandomMapProvider(rowsCount, colsCount);
         boolean[][] island = islandProvider.get();
 
         // then

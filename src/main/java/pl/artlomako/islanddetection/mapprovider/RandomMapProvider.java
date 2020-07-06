@@ -1,19 +1,18 @@
-package pl.artlomako.islanddetection.islandprovider;
+package pl.artlomako.islanddetection.mapprovider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.artlomako.islanddetection.Main;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomIslandProvider implements IslandProvider {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RandomIslandProvider.class);
+public class RandomMapProvider implements MapProvider {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RandomMapProvider.class);
 
     private static final int LAND_DRAWING_CHANCE = 30;
     private final int rowsCount;
     private final int colsCount;
 
-    public RandomIslandProvider(int rowsCount, int colsCount) {
+    public RandomMapProvider(int rowsCount, int colsCount) {
         this.rowsCount = rowsCount;
         this.colsCount = colsCount;
     }
@@ -31,7 +30,7 @@ public class RandomIslandProvider implements IslandProvider {
             }
         }
 
-        LOGGER.info("Generated [{},{}] island", rowsCount, colsCount);
+        LOGGER.info("Generated [{},{}] map", rowsCount, colsCount);
 
         return map;
     }
